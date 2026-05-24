@@ -1,5 +1,6 @@
 package com.girlocal.girapi.shared.domain.model;
 
+import com.girlocal.girapi.identity.domain.event.VerifyNewUserEvent;
 import com.girlocal.girapi.shared.domain.event.DomainEvent;
 
 import java.util.ArrayList;

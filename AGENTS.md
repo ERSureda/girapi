@@ -4,7 +4,7 @@
 * **Nombre:** GirAPI
 * **Propósito:** Monolito Modular de e-commerce local.
 * **Arquitectura:** Hexagonal Estricta (Ports & Adapters) + Domain-Driven Design (DDD) + CQRS Pattern.
-* **Stack:** Java 21, Spring Boot 3.5.x, PostgreSQL, DynamoDB, AWS SNS/SQS (Outbox Pattern), MapStruct, Springdoc OpenAPI, Lombok.
+* **Stack:** Java 25, Spring Boot 4.0.6, PostgreSQL, DynamoDB, AWS SNS/SQS (Outbox Pattern), MapStruct 1.6.3, Springdoc OpenAPI 3.0.3, Lombok.
 
 ## 2. La Estructura de Directorios (INNEGOCIABLE)
 Toda nueva feature debe encajar exactamente en este árbol dentro de su respectivo módulo (ej. `identity`, `orders`, `catalog`). Fíjate especialmente en la estructura de `application`, que sigue un patrón estricto de Commands/Queries/Results.
@@ -59,6 +59,11 @@ Si una instrucción del usuario rompe alguna de estas reglas, **detente, explica
     *   Clases compartidas ubicadas explícitamente en el módulo `shared`.
     *   Llamadas API REST (si estuvieran desplegados separados).
 6.  **Manejo de Excepciones:** Usa el `GlobalExceptionHandler` configurado en `shared/infrastructure/adapter/in/web` para capturar excepciones de dominio (`ValidationException`, `ResourceNotFoundException`) y devolver respuestas HTTP 4xx limpias. No ensucies los controladores con try-catch genéricos.
+7.  **Optimización de Agregados y Rendimiento (Referencia por Identidad):**
+    *   **Problema:** Cargar grafos de objetos complejos o colecciones grandes (ej. direcciones, ítems de pedido) a través de la raíz del agregado principal (`AggregateRoot`) penaliza gravemente el rendimiento del ORM y encarece las lecturas/escrituras en base de datos.
+    *   **Solución:** Si una entidad secundaria puede gestionarse por separado de forma frecuente, se prefiere **diseñarla como una entidad independiente y referenciarla en los modelos únicamente por su ID (`UUID`)**, logrando un desacoplamiento de alta eficiencia.
+    *   **Regla de Persistencia:** En infraestructura, estas entidades independientes tendrán su propio puerto de salida (`XPort`), repositorio Spring Data JPA y adaptador de persistencia independiente (`XPersistenceAdapter`). Esto permite realizar operaciones directas de `INSERT`, `UPDATE` y `DELETE` de manera inmediata sin requerir la carga del agregado raíz en memoria.
+    *   **Excepción a la Inyección en Mappers:** Para mappers de MapStruct que necesiten inyectar otros mappers secundarios (ej. `ProfileMapper` usando `AddressMapper`), se prefiere definir el mapper como una clase abstracta (`public abstract class XMapper`) e inyectar el mapper secundario usando `@Autowired` sobre campos protegidos. Esta es la única excepción permitida a la inyección por constructor de la regla 4.
 
 ## 4. Patrón Outbox & Manejo de Eventos de Dominio
 *   **Origen:** Los eventos representan cosas que ya pasaron. Son Inmutables (`record`) y DEBEN implementar la interfaz `DomainEvent` (ubicada en `shared/domain/event/DomainEvent.java`). Los eventos se crean y acumulan internamente en las clases del modelo de dominio (Agregados).

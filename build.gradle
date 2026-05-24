@@ -38,6 +38,15 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+
+    // Validate
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs:4.0.2'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-sns:4.0.2'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-dynamodb:4.0.2'
+
 }
 
 tasks.named('test') {
