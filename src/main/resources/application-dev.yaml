@@ -1,0 +1,59 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  error:
+    include-stacktrace: always
+    include-message: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/girapi_dev
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    aws:
+      region:
+        static: eu-central-1
+      credentials:
+        access-key: local
+        secret-key: local
+        use-default-aws-credentials-chain: false
+      dynamodb:
+        endpoint: http://localhost:4566
+      sns:
+        endpoint: http://localhost:4566
+      sqs:
+        endpoint: http://localhost:4566
+
+application:
+  dynamodb:
+    table-name: user_sessions_dev
+  errors:
+    expose-details: true
+
+logging:
+  level:
+    root: INFO
+    com.girlocal.girapi: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.deprecation: ERROR
+    org.springframework.web: INFO

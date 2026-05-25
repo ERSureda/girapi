@@ -1,0 +1,61 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+  error:
+    include-stacktrace: never
+    include-message: never
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    max-connections: 8192
+    accept-count: 100
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/girapi_prod}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:20}
+      minimum-idle: ${DB_POOL_MIN:5}
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      leak-detection-threshold: 2000
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION:eu-central-1}
+      credentials:
+        use-default-aws-credentials-chain: true
+
+application:
+  dynamodb:
+    table-name: ${DYNAMODB_TABLE_NAME:user_sessions_prod}
+  errors:
+    expose-details: false
+
+logging:
+  level:
+    root: INFO
+    com.girlocal.girapi: INFO
+    org.hibernate: WARN
+    org.springframework: WARN

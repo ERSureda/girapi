@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: girlocal-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: girapi_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./.local_data/postgres:/var/lib/postgresql/data
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: girlocal-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=sqs,sns,ses,dynamodb,apigateway,lambda
+      - DEFAULT_REGION=eu-central-1
+      - AWS_DEFAULT_REGION=eu-central-1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./localstack:/etc/localstack/init/ready.d"
+      - "./.local_data/localstack:/var/lib/localstack"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
