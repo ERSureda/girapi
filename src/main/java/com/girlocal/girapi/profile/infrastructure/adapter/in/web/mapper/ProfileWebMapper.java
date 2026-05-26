@@ -8,14 +8,13 @@ import com.girlocal.girapi.profile.infrastructure.adapter.in.web.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-
 import org.mapstruct.Mapping;
 
 import java.util.UUID;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface ProfileWebMapper {
 

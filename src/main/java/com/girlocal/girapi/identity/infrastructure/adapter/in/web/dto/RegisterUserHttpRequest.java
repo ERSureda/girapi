@@ -22,9 +22,13 @@ public record RegisterUserHttpRequest(
         @NotBlank(message = "MATCHING-PASSWORD_REQUIRED")
         String matchingPassword,
 
-        @Schema(description = "The user's full name.", example = "Test Testat")
-        @NotBlank(message = "FULL-NAME_REQUIRED")
-        String fullName,
+        @Schema(description = "The user's first name.", example = "Test")
+        @NotBlank(message = "FIRST-NAME_REQUIRED")
+        String firstName,
+
+        @Schema(description = "The user's last name.", example = "Testat")
+        @NotBlank(message = "LAST-NAME_REQUIRED")
+        String lastName,
 
         @Schema(description = "The user's role.", example = "CUSTOMER")
         @NotNull(message = "ROLE_REQUIRED")

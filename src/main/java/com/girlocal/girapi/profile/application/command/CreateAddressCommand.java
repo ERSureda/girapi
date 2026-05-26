@@ -5,7 +5,6 @@ import com.girlocal.girapi.shared.application.validation.CommandValidator;
 import java.util.UUID;
 
 public record CreateAddressCommand(
-        UUID userId,
         String addressLine1,
         String addressLine2,
         String locality,
@@ -15,7 +14,6 @@ public record CreateAddressCommand(
 ) {
     public CreateAddressCommand {
         CommandValidator.start()
-                .rejectIfNull(userId, "USER_ID_REQUIRED", "User ID is required.")
                 .rejectIfBlank(addressLine1, "ADDRESS_LINE1_REQUIRED", "Address line 1 is required.")
                 .rejectIfBlank(locality, "LOCALITY_REQUIRED", "Locality is required.")
                 .rejectIfBlank(postalCode, "POSTAL_CODE_REQUIRED", "Postal code is required.")

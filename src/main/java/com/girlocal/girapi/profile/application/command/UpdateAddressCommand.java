@@ -5,7 +5,6 @@ import com.girlocal.girapi.shared.application.validation.CommandValidator;
 import java.util.UUID;
 
 public record UpdateAddressCommand(
-        UUID userId,
         UUID addressId,
         String addressLine1,
         String addressLine2,
@@ -16,7 +15,6 @@ public record UpdateAddressCommand(
 ) {
     public UpdateAddressCommand {
         CommandValidator.start()
-                .rejectIfNull(userId, "USER_ID_REQUIRED", "User ID is required.")
                 .rejectIfNull(addressId, "ADDRESS_ID_REQUIRED", "Address ID is required.")
                 .rejectIfBlank(addressLine1, "ADDRESS_LINE1_REQUIRED", "Address line 1 is required.")
                 .rejectIfBlank(locality, "LOCALITY_REQUIRED", "Locality is required.")

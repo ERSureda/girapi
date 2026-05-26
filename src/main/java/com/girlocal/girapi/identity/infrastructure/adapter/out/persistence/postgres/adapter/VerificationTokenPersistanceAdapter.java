@@ -28,7 +28,7 @@ public class VerificationTokenPersistanceAdapter implements VerificationTokenPor
     @Override
     @Transactional
     public void save(VerificationToken token) {
-        verificationTokenMapper.toDomain( verificationTokenMapper.toEntity(token));
+        verificationTokenRepository.save(verificationTokenMapper.toEntity(token));
     }
 
     @Override
