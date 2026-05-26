@@ -36,6 +36,21 @@ public class OutboxPersistenceAdapter implements OutboxPublisherPort {
 
     @Override
     public void publishAll(List<DomainEvent> events) {
-        return;
+        if (events == null || events.isEmpty()) return;
+        List<OutboxEntity> entities = events.stream()
+                .map(event -> {
+                    try {
+                        return new OutboxEntity(
+                                event.getClass().getSimpleName(),
+                                event.eventId().toString(),
+                                objectMapper.writeValueAsString(event)
+                        );
+                    } catch (JsonProcessingException e) {
+                        log.error("Failed to serialize domain event of type {}.", event.getClass().getSimpleName(), e);
+                        throw new InfrastructureException("SERIALIZATION_ERROR", "Failed to serialize domain event.");
+                    }
+                })
+                .toList();
+        outboxRepository.saveAll(entities);
     }
 }

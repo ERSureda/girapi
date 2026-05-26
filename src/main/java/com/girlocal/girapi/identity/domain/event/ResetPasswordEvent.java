@@ -19,7 +19,7 @@ public record ResetPasswordEvent(
         this(
                 UUID.randomUUID(),
                 Instant.now(),
-                VerificationTokenType.PASSWORD_RESET.toString(),
+                VerificationTokenType.RESET_PASSWORD.toString(),
                 email,
                 token
         );

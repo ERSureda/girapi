@@ -4,8 +4,7 @@ import com.girlocal.girapi.profile.application.port.in.*;
 import com.girlocal.girapi.profile.application.result.ProfileResult;
 import com.girlocal.girapi.profile.infrastructure.adapter.in.web.dto.*;
 import com.girlocal.girapi.profile.infrastructure.adapter.in.web.mapper.ProfileWebMapper;
-import com.girlocal.girapi.shared.application.port.in.SessionValidatorPort;
-import com.girlocal.girapi.shared.domain.model.AuthenticatedUser;
+import com.girlocal.girapi.profile.application.command.DeleteAddressCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -108,6 +107,7 @@ public class ProfileController {
     public ResponseEntity<Void> deleteMyAddress(
             @PathVariable UUID addressId
     ) {
+        deleteAddressUseCase.execute(mapper.toDeleteAddressCommand(addressId));
         return ResponseEntity
                 .status(200)
                 .build();

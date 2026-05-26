@@ -36,7 +36,7 @@ spring:
       credentials:
         access-key: local
         secret-key: local
-        use-default-aws-credentials-chain: false
+      endpoint: http://localhost:4566
       dynamodb:
         endpoint: http://localhost:4566
       sns:

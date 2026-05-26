@@ -1,5 +1,6 @@
 package com.girlocal.girapi.shared.infraestructure.adapter.out.outbox;
 
+import com.girlocal.girapi.shared.application.port.out.SnsPublisherPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +15,7 @@ import java.util.List;
 public class OutboxRelayScheduler {
 
     private final OutboxRepository outboxRepository;
-    // private final SnsPublisherPort snsPublisherPort;
+    private final SnsPublisherPort snsPublisherPort;
 
     private static final int MAX_RETRIES = 5;
     private static final int BATCH_SIZE = 100;
@@ -22,11 +23,11 @@ public class OutboxRelayScheduler {
     @Scheduled(fixedDelay = 5000)
     @Transactional
     public void processPendingEvents() {
-        /* <OutboxEventEntity> pendingEvents = outboxRepository.findPendingEvents(BATCH_SIZE);
+        List<OutboxEntity> pendingEvents = outboxRepository.findPendingEvents(BATCH_SIZE);
 
         if (pendingEvents.isEmpty()) return;
 
-        for (OutboxEventEntity event : pendingEvents) {
+        for (OutboxEntity event : pendingEvents) {
             try {
                 snsPublisherPort.publish(
                         event.getAggregateType(),
@@ -41,6 +42,6 @@ public class OutboxRelayScheduler {
                     event.setProcessed(true);
                 }
             }
-        }*/
+        }
     }
 }

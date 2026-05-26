@@ -46,6 +46,16 @@ awslocal sqs create-queue \
     --region eu-central-1
 echo "✅ SQS queue 'initialize-profile-queue' created."
 
+# Subscribe SQS Queue to SNS Topic
+echo "Subscribing SQS queue 'initialize-profile-queue' to SNS topic 'local-events'..."
+awslocal sns subscribe \
+    --topic-arn arn:aws:sns:eu-central-1:000000000000:local-events \
+    --protocol sqs \
+    --notification-endpoint arn:aws:sqs:eu-central-1:000000000000:initialize-profile-queue \
+    --region eu-central-1
+echo "✅ Subscription created."
+
+
 # Verify SES Email Identity
 echo "Verifying SES email identity 'noreply@girlocal.com'..."
 awslocal ses verify-email-identity \
