@@ -79,19 +79,19 @@ public class Store extends AggregateRoot<UUID> {
     /// --- Business Logic ---
     private void validateData() {
         if (this.id == null) {
-            throw new DomainException("STORE_ID_REQUIRED", "Store ID is required.");
+            throw new DomainException("ID_CANNOT_BE_NULL", "Store Id is required.");
         }
         if (this.name == null || this.name.isBlank()) {
-            throw new DomainException("STORE_NAME_REQUIRED", "Store name cannot be empty.");
+            throw new DomainException("NAME_CANNOT_BE_EMPTY", "Store name cannot be empty.");
         }
         if (this.status == null) {
-            throw new DomainException("STORE_STATUS_REQUIRED", "Store status is required.");
+            throw new DomainException("STATUS_CANNOT_BE_NULL", "Store status is required.");
         }
     }
 
     public void updateDetails(String name, String description) {
         if (name == null || name.isBlank()) {
-            throw new DomainException("STORE_NAME_REQUIRED", "Store name cannot be empty.");
+            throw new DomainException("NAME_CANNOT_BE_EMPTY", "Store name cannot be empty.");
         }
         this.name = name;
         this.description = description;

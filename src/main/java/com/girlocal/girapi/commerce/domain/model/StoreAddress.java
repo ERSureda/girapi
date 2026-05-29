@@ -128,7 +128,7 @@ public class StoreAddress extends BaseEntity<UUID> {
             throw new DomainException("POSTAL-CODE_CANNOT_BE_EMPTY", "StoreAddress postalCode cannot be empty.");
         }
         if (this.countryCode == null || this.countryCode.length() != 2) {
-            throw new DomainException("COUNTRY-CODE_INVALID", "StoreAddress countryCode must be valid (2 characters).");
+            throw new DomainException("COUNTRY-CODE_INVALID", "StoreAddress countryCode must be valid.");
         }
     }
 }

@@ -12,14 +12,17 @@ public record DaySchedule(
 ) {
     public DaySchedule {
         if (dayOfWeek == null) {
-            throw new DomainException("DAY_OF_WEEK_REQUIRED", "Day of week is required.");
+            throw new DomainException("DAY-OF-WEEK_CANNOT_BE_NULL", "DaySchedule dayOfWeek is required.");
         }
         if (!isClosed) {
-            if (openTime == null || closeTime == null) {
-                throw new DomainException("SCHEDULE_TIMES_REQUIRED", "Open and close times are required when not closed.");
+            if (openTime == null) {
+                throw new DomainException("OPEN-TIME_CANNOT_BE_NULL", "DaySchedule openTime is required when not closed.");
+            }
+            if (closeTime == null) {
+                throw new DomainException("CLOSE-TIME_CANNOT_BE_NULL", "DaySchedule closeTime is required when not closed.");
             }
             if (openTime.isAfter(closeTime) || openTime.equals(closeTime)) {
-                throw new DomainException("INVALID_SCHEDULE_HOURS", "Open time must be before close time.");
+                throw new DomainException("TIMES_INVALID", "DaySchedule openTime must be before closeTime.");
             }
         }
     }
