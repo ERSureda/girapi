@@ -50,12 +50,12 @@ public class StoreSchedule extends BaseEntity<UUID> {
             throw new DomainException("STORE-ID_CANNOT_BE_NULL", "StoreSchedule storeId is required.");
         }
         if (this.days == null || this.days.isEmpty()) {
-            throw new DomainException("SCHEDULE_DAYS_REQUIRED", "At least one day schedule is required.");
+            throw new DomainException("DAYS_CANNOT_BE_EMPTY", "StoreSchedule days cannot be empty.");
         }
         // Validamos que no haya días duplicados
         long uniqueDays = this.days.stream().map(DaySchedule::dayOfWeek).distinct().count();
         if (uniqueDays != this.days.size()) {
-            throw new DomainException("DUPLICATE_SCHEDULE_DAYS", "Cannot have duplicate days in schedule.");
+            throw new DomainException("DAYS_DUPLICATED", "StoreSchedule days cannot have duplicates.");
         }
     }
 }
