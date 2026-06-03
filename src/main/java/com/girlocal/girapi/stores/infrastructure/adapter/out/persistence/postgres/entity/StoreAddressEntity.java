@@ -3,6 +3,7 @@ package com.girlocal.girapi.stores.infrastructure.adapter.out.persistence.postgr
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,12 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "store_addresses")
+@Table(
+        name = "store_addresses",
+        indexes = {
+                @Index(name = "idx_store_addresses_store", columnList = "store_id")
+        }
+)
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class StoreAddressEntity  {

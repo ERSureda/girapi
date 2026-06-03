@@ -2,6 +2,7 @@ package com.girlocal.girapi.stores.infrastructure.adapter.out.persistence.postgr
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,10 @@ import java.util.UUID;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class StoreDetailsEntity {
+
+    @Id
+    @Column(name = "store_id")
+    private UUID storeId;
 
     @Column(columnDefinition = "text")
     private String description;
