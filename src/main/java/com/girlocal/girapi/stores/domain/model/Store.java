@@ -1,6 +1,6 @@
-package com.girlocal.girapi.commerce.domain.model;
+package com.girlocal.girapi.stores.domain.model;
 
-import com.girlocal.girapi.commerce.domain.model.enums.StoreStatus;
+import com.girlocal.girapi.stores.domain.model.enums.StoreStatus;
 import com.girlocal.girapi.shared.domain.exception.DomainException;
 import com.girlocal.girapi.shared.domain.model.AggregateRoot;
 

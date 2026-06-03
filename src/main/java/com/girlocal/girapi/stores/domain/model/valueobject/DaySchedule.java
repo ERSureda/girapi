@@ -1,4 +1,4 @@
-package com.girlocal.girapi.commerce.domain.model.valueobject;
+package com.girlocal.girapi.stores.domain.model.valueobject;
 
 import com.girlocal.girapi.shared.domain.exception.DomainException;
 import java.time.DayOfWeek;

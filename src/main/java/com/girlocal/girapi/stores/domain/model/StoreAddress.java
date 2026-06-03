@@ -1,4 +1,4 @@
-package com.girlocal.girapi.commerce.domain.model;
+package com.girlocal.girapi.stores.domain.model;
 
 import com.girlocal.girapi.shared.domain.exception.DomainException;
 import com.girlocal.girapi.shared.domain.model.BaseEntity;
