@@ -10,21 +10,24 @@ public class Store extends AggregateRoot<UUID> {
 
     private String name;
     private String description;
-    private UUID activeAddressId;
     private StoreStatus status;
+    private java.util.List<String> includedZones;
+    private java.util.List<String> excludedZones;
 
     private Store(
             UUID id,
             String name,
             String description,
-            UUID activeAddressId,
-            StoreStatus status
+            StoreStatus status,
+            java.util.List<String> includedZones,
+            java.util.List<String> excludedZones
     ) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.activeAddressId = activeAddressId;
         this.status = status;
+        this.includedZones = includedZones != null ? java.util.List.copyOf(includedZones) : java.util.List.of();
+        this.excludedZones = excludedZones != null ? java.util.List.copyOf(excludedZones) : java.util.List.of();
 
         this.validateData();
     }
@@ -38,8 +41,9 @@ public class Store extends AggregateRoot<UUID> {
                 id != null ? id : UUID.randomUUID(),
                 name,
                 description,
-                null,
-                StoreStatus.PENDING_APPROVAL
+                StoreStatus.PENDING_APPROVAL,
+                java.util.List.of(),
+                java.util.List.of()
         );
     }
 
@@ -47,15 +51,17 @@ public class Store extends AggregateRoot<UUID> {
             UUID id,
             String name,
             String description,
-            UUID activeAddressId,
-            StoreStatus status
+            StoreStatus status,
+            java.util.List<String> includedZones,
+            java.util.List<String> excludedZones
     ) {
         return new Store(
                 id,
                 name,
                 description,
-                activeAddressId,
-                status
+                status,
+                includedZones,
+                excludedZones
         );
     }
 
@@ -68,12 +74,16 @@ public class Store extends AggregateRoot<UUID> {
         return description;
     }
 
-    public UUID getActiveAddressId() {
-        return activeAddressId;
-    }
-
     public StoreStatus getStatus() {
         return status;
+    }
+
+    public java.util.List<String> getIncludedZones() {
+        return includedZones;
+    }
+
+    public java.util.List<String> getExcludedZones() {
+        return excludedZones;
     }
 
     /// --- Business Logic ---
@@ -87,6 +97,12 @@ public class Store extends AggregateRoot<UUID> {
         if (this.status == null) {
             throw new DomainException("STATUS_CANNOT_BE_NULL", "Store status is required.");
         }
+        if (this.includedZones == null) {
+            throw new DomainException("INCLUDED-ZONES_CANNOT_BE_NULL", "Included zones list is required.");
+        }
+        if (this.excludedZones == null) {
+            throw new DomainException("EXCLUDED-ZONES_CANNOT_BE_NULL", "Excluded zones list is required.");
+        }
     }
 
     public void updateDetails(String name, String description) {
@@ -97,8 +113,10 @@ public class Store extends AggregateRoot<UUID> {
         this.description = description;
     }
 
-    public void setActiveAddress(UUID addressId) {
-        this.activeAddressId = addressId;
+    public void updateCoverageZones(java.util.List<String> includedZones, java.util.List<String> excludedZones) {
+        this.includedZones = includedZones != null ? java.util.List.copyOf(includedZones) : java.util.List.of();
+        this.excludedZones = excludedZones != null ? java.util.List.copyOf(excludedZones) : java.util.List.of();
+        this.validateData();
     }
 
     public void approve() {

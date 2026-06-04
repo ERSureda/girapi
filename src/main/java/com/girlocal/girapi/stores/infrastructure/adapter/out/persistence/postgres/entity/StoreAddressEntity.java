@@ -16,12 +16,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "store_addresses",
-        indexes = {
-                @Index(name = "idx_store_addresses_store", columnList = "store_id")
-        }
-)
+@Table(name = "store_addresses")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class StoreAddressEntity  {
@@ -29,7 +24,7 @@ public class StoreAddressEntity  {
     @Id
     private UUID id;
 
-    @Column(name = "store_id", nullable = false)
+    @Column(name = "store_id")
     private UUID storeId;
 
     @Column(name = "address_line1", nullable = false)

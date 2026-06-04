@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public class StoreAddress extends BaseEntity<UUID> {
 
-    private final UUID storeId;
     private final String addressLine1;
     private final String addressLine2;
     private final String locality;
@@ -16,7 +15,6 @@ public class StoreAddress extends BaseEntity<UUID> {
     private final String countryCode;
 
     private StoreAddress(
-            UUID id,
             UUID storeId,
             String addressLine1,
             String addressLine2,
@@ -25,8 +23,7 @@ public class StoreAddress extends BaseEntity<UUID> {
             String postalCode,
             String countryCode
     ) {
-        this.id = id;
-        this.storeId = storeId;
+        this.id = storeId;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.locality = locality;
@@ -38,7 +35,6 @@ public class StoreAddress extends BaseEntity<UUID> {
     }
 
     public static StoreAddress create(
-            UUID id,
             UUID storeId,
             String addressLine1,
             String addressLine2,
@@ -48,8 +44,7 @@ public class StoreAddress extends BaseEntity<UUID> {
             String countryCode
     ) {
         return new StoreAddress(
-                id != null ? id : UUID.randomUUID(),
-                storeId,
+                storeId != null ? storeId : UUID.randomUUID(),
                 addressLine1,
                 addressLine2,
                 locality,
@@ -60,7 +55,6 @@ public class StoreAddress extends BaseEntity<UUID> {
     }
 
     public static StoreAddress reconstruct(
-            UUID id,
             UUID storeId,
             String addressLine1,
             String addressLine2,
@@ -70,7 +64,6 @@ public class StoreAddress extends BaseEntity<UUID> {
             String countryCode
     ) {
         return new StoreAddress(
-                id,
                 storeId,
                 addressLine1,
                 addressLine2,
@@ -83,7 +76,7 @@ public class StoreAddress extends BaseEntity<UUID> {
 
     /// --- Getters ---
     public UUID getStoreId() {
-        return storeId;
+        return id;
     }
 
     public String getAddressLine1() {
@@ -113,9 +106,6 @@ public class StoreAddress extends BaseEntity<UUID> {
     /// --- Business Logic ---
     private void validateData() {
         if (this.id == null) {
-            throw new DomainException("ID_CANNOT_BE_NULL", "StoreAddress Id is required.");
-        }
-        if (this.storeId == null) {
             throw new DomainException("STORE-ID_CANNOT_BE_NULL", "StoreAddress storeId is required.");
         }
         if (this.addressLine1 == null || this.addressLine1.isBlank()) {

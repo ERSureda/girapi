@@ -12,15 +12,14 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "store_details")
+@Table(name = "store_schedules")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class StoreDetailsEntity {
+public class StoreScheduleEntity {
 
     @Id
+    private UUID id;
+
     @Column(name = "store_id")
     private UUID storeId;
-
-    @Column(columnDefinition = "text")
-    private String description;
 }

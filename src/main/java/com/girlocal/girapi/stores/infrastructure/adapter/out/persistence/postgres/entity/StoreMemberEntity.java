@@ -1,6 +1,5 @@
 package com.girlocal.girapi.stores.infrastructure.adapter.out.persistence.postgres.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,15 +11,19 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "store_details")
+@Table(name = "store_members")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class StoreDetailsEntity {
+public class StoreMemberEntity {
 
     @Id
-    @Column(name = "store_id")
+    private Long id;
+
     private UUID storeId;
 
-    @Column(columnDefinition = "text")
-    private String description;
+    private UUID userId;
+
+    private String role;
+
+    private String status;
 }
